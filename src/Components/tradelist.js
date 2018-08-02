@@ -35,6 +35,9 @@ export class Request extends Component {
 			this.messageFalse= 'You have not agreed this trade. Click to trade';
 		}
 	}
+	componentWillUnmount(){
+		this.props.actions.CloseAlert();
+	}
 	render() {
 		let alertMessage= null;
 		if(this.props.request.agreed){

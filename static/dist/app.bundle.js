@@ -967,13 +967,13 @@ var BookItem = function (_Component) {
 				_react2.default.createElement(
 					_reactBootstrap.Button,
 					{ bsStyle: 'primary', onClick: this.handleRequest.bind(this) },
-					'Want'
+					'\u60F3\u8981'
 				),
 				' ',
 				_react2.default.createElement(
 					_reactBootstrap.Button,
 					{ bsStyle: 'danger', onClick: this.handleDelete.bind(this) },
-					'Delete'
+					'\u5220\u9664'
 				)
 			) : null;
 		}
@@ -2209,6 +2209,11 @@ var Request = exports.Request = function (_Component2) {
 				this.messageTrue = 'You have agreed this trade';
 				this.messageFalse = 'You have not agreed this trade. Click to trade';
 			}
+		}
+	}, {
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			this.props.actions.CloseAlert();
 		}
 	}, {
 		key: 'render',

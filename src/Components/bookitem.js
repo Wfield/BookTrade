@@ -11,8 +11,8 @@ class BookItem extends Component {
 	componentWillReceiveProps(nextProps){
 		this.item=this.props.bookname? <Thumbnail src={nextProps.handleError.altSrc} alt='local' onError={this.handleError.bind(this)}>
 				<h4>{this.props.bookname}</h4>
-				<Button bsStyle='primary' onClick={this.handleRequest.bind(this)}>Want</Button>{' '}
-				<Button bsStyle='danger' onClick={this.handleDelete.bind(this)}>Delete</Button>
+				<Button bsStyle='primary' onClick={this.handleRequest.bind(this)}>想要</Button>{' '}
+				<Button bsStyle='danger' onClick={this.handleDelete.bind(this)}>删除</Button>
 			</Thumbnail>: null;
 	}
 	componentDidMount(){

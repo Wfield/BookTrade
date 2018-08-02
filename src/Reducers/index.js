@@ -66,7 +66,7 @@ const bookPRDW= (state={}, action) => {	//PRDW: publish request delete want
 const handleErrors= (state= {}, action) => {
 	switch(action.type){
 		case 'IMG_ERROR':
-			return {...state, altSrc: '/imgs/Image.jpg'}
+			return {...state, altSrc: '/imgs/Image.jpg' }
 		case 'ALERT_MESSAGE':
 			return {...state, alert: true, content: action.content}
 		case 'PUBLISHED_BOOK':

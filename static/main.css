@@ -1,0 +1,42 @@
+.loginTemplate{
+	margin: 20px auto;
+}
+.reqme-alert{
+	width: 600px;
+	position: fixed;
+	top: 20%;
+	left: 30%;
+	z-index: 1;
+}
+.nobook-alert{
+	width: 100%;
+	float: left;
+}
+.home{
+	width: 80%;
+	height: 500px;
+	position: absolute;
+	text-align: center;
+	color: steelblue;
+}
+.home-img{
+	position: absolute;
+	left: 40%;
+}
+.home-footer{
+	width: 100%;
+	background-color: moccasin;
+	color: seagreen;
+	position: absolute;
+	bottom: 60px;
+	left: 30px;
+}
+a{
+	cursor: pointer;
+}
+.footer{
+	position: absolute;
+	color: black;
+	bottom: 10px;
+	left: 40%;
+}

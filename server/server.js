@@ -6,7 +6,7 @@ import mongoose from 'mongoose'
 import route from './Route/index'
 
 const PORT= process.env.PORT|| 9000;
-const dbURL= process.env.PROD_MONGODB|| 'mongodb://localhost:27017/booktrade';
+const dbURL= process.env.MONGOLAB_URI|| 'mongodb://localhost:27017/booktrade';
 
 const app= express();
 app.use(express.static(path.join(__dirname, '../static')));

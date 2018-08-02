@@ -1,7 +1,9 @@
 import { Auth, Alert } from './index'
 
 export default function _requset(dispatch, endAction, params, method, info) {
-	let url='http://localhost:9000/api/'+params;
+	//https://frozen-cliffs-58040.herokuapp.com/
+	//http://localhost:9000
+	let url='https://frozen-cliffs-58040.herokuapp.com/api/'+params;
 	let options=  method? {
 		method: method,
 		mode: 'cors',

@@ -5,10 +5,11 @@ import * as actions from '../Actions/index'
 import { withRequest, Request } from '../Components/tradelist'
 
 function mapStateToProps(state){
-	const {bookPRDW, setUser}= state;
+	const {bookPRDW, setUser, handleErrors}= state;
 	return {
 		request: bookPRDW,
-		user: setUser
+		user: setUser,
+		handleAlert: handleErrors
 	}
 }
 function mapDispatchToProps(dispatch){

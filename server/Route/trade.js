@@ -60,7 +60,11 @@ router.get('/user/:id/myrequest', function(req, res){
 		if(err){
 			res.send(err);
 		}else if(user){
-			res.send({type: 1, content: user.myrequest});
+			if(user.myrequest.length==0){
+				res.send({type: 2, content: {alertType: 8, message:'You have not request a book'}});
+			}else{
+				res.send({type: 1, content: user.myrequest});
+			}
 		}
 	})
 });
@@ -69,7 +73,11 @@ router.get('/user/:id/requestme', function(req, res){
 		if(err){
 			res.send(err);
 		}else if(user){
-			res.send({type: 1, content: user.requestme});
+			if(user.requestme.length==0){
+				res.send({type: 2, content: {alertType: 8, message:'No request for you'}});
+			}else{
+				res.send({type: 1, content: user.requestme});
+			}
 		}
 	})
 });

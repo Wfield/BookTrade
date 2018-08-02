@@ -52,6 +52,14 @@ export class Request extends Component {
 				);
 			}
 		}
+		let tradeMessage= null;
+		if(this.props.handleAlert.alert&& this.props.handleAlert.content.alertType==8){
+			tradeMessage= (
+				<Alert bsStyle="info" onDismiss={this.dismissValidation.bind(this)}>
+	         		{this.props.handleAlert.content.message}
+	        	</Alert>
+			)
+		}
 		let list= this.props.request.reqList? this.props.request.reqList.map((req, i)=> {
 			if(!req.agree&& this.props.reqAction== 'RequestMe'){
 				return <ListGroupItem key={i} header={req.bookname} bsStyle={req.agree? 'warning': 'success'} onClick={this.hanldeTrade.bind(this, req.bookId)}>{req.agree? this.messageTrue: this.messageFalse}</ListGroupItem>
@@ -60,6 +68,7 @@ export class Request extends Component {
 		}): null;
 		return (
 			<div className='req-list'>
+				{tradeMessage}
 				<div className='reqme-alert'>
 					{alertMessage}
 				</div>

@@ -2231,6 +2231,14 @@ var Request = exports.Request = function (_Component2) {
 					);
 				}
 			}
+			var tradeMessage = null;
+			if (this.props.handleAlert.alert && this.props.handleAlert.content.alertType == 8) {
+				tradeMessage = _react2.default.createElement(
+					_reactBootstrap.Alert,
+					{ bsStyle: 'info', onDismiss: this.dismissValidation.bind(this) },
+					this.props.handleAlert.content.message
+				);
+			}
 			var list = this.props.request.reqList ? this.props.request.reqList.map(function (req, i) {
 				if (!req.agree && _this3.props.reqAction == 'RequestMe') {
 					return _react2.default.createElement(
@@ -2248,6 +2256,7 @@ var Request = exports.Request = function (_Component2) {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'req-list' },
+				tradeMessage,
 				_react2.default.createElement(
 					'div',
 					{ className: 'reqme-alert' },
@@ -2632,11 +2641,13 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function mapStateToProps(state) {
 	var bookPRDW = state.bookPRDW,
-	    setUser = state.setUser;
+	    setUser = state.setUser,
+	    handleErrors = state.handleErrors;
 
 	return {
 		request: bookPRDW,
-		user: setUser
+		user: setUser,
+		handleAlert: handleErrors
 	};
 }
 function mapDispatchToProps(dispatch) {

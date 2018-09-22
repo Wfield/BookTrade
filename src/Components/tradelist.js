@@ -15,6 +15,9 @@ export class Request extends Component {
 		this.messageTrue='';
 		this.messageFalse='';
 	}
+	dismissValidation(){
+		this.props.actions.CloseAlert();
+	}
 	hanldeTrade(id, event) {
 		let user= this.props.user.info.username;
 		this.props.actions.AgreeTrade(user, id);

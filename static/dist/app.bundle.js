@@ -593,6 +593,7 @@ var _index = __webpack_require__(/*! ./index */ "./src/Actions/index.js");
 
 function _requset(dispatch, endAction, params, method, info) {
 	//https://floating-gorge-98177.herokuapp.com
+	//http://localhost:5000 heroku local
 	//http://localhost:9000
 	//http://localhost:8000  devServer
 	var url = 'https://floating-gorge-98177.herokuapp.com/api/' + params;
@@ -1589,7 +1590,7 @@ var LoginRegister = exports.LoginRegister = function (_Component2) {
 		key: 'componentWillReceiveProps',
 		value: function componentWillReceiveProps(nextProps) {
 			if (nextProps.authRegister.auth) {
-				this.props.history.push('/user/' + nextProps.user.info.username);
+				this.props.history.push('/allbooks');
 			}
 		}
 	}, {
@@ -2202,6 +2203,11 @@ var Request = exports.Request = function (_Component2) {
 	}
 
 	_createClass(Request, [{
+		key: 'dismissValidation',
+		value: function dismissValidation() {
+			this.props.actions.CloseAlert();
+		}
+	}, {
 		key: 'hanldeTrade',
 		value: function hanldeTrade(id, event) {
 			var user = this.props.user.info.username;

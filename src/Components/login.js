@@ -47,7 +47,7 @@ export class LoginRegister extends Component {
 	}
 	componentWillReceiveProps(nextProps) {
 		if(nextProps.authRegister.auth){
-			this.props.history.push('/user/'+nextProps.user.info.username);
+			this.props.history.push('/allbooks');
 		}
 	}
 	componentDidMount() {

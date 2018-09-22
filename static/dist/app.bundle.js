@@ -592,9 +592,10 @@ exports.default = _requset;
 var _index = __webpack_require__(/*! ./index */ "./src/Actions/index.js");
 
 function _requset(dispatch, endAction, params, method, info) {
-	//https://frozen-cliffs-58040.herokuapp.com/
+	//https://floating-gorge-98177.herokuapp.com
 	//http://localhost:9000
-	var url = 'http://localhost:9000/api/' + params;
+	//http://localhost:8000  devServer
+	var url = 'https://floating-gorge-98177.herokuapp.com/api/' + params;
 	var options = method ? {
 		method: method,
 		mode: 'cors',
@@ -644,7 +645,7 @@ function _requset(dispatch, endAction, params, method, info) {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.CloseAlert = exports.Alert = exports.OldPasswordVaild = exports.PasswordChanged = exports.GetProfile = exports.ChangeProfile = exports.ProfileChanged = exports.AgreeTrade = exports.Agreed = exports.RequestMe = exports.MyRequest = exports.BookRequst = exports.ImgError = exports.WantBook = exports.Wanted = exports.Delete = exports.Deleted = exports.Published = exports.Publish = exports.Register = exports.Login = exports.unRegister = exports.Registered = exports.unAuth = exports.Auth = exports.userInfo = exports.fetchUserBooks = exports.fetchUserBooksEnd = exports.fetchAllBooks = exports.fetchAllBooksEnd = undefined;
+exports.DataURL = exports.UpdateDataURL = exports.CloseAlert = exports.Alert = exports.OldPasswordVaild = exports.PasswordChanged = exports.GetProfile = exports.ChangeProfile = exports.ProfileChanged = exports.AgreeTrade = exports.Agreed = exports.RequestMe = exports.MyRequest = exports.BookRequst = exports.ImgError = exports.WantBook = exports.Wanted = exports.Delete = exports.Deleted = exports.Published = exports.Publish = exports.Register = exports.Login = exports.unRegister = exports.Registered = exports.unAuth = exports.Auth = exports.userInfo = exports.fetchUserBooks = exports.fetchUserBooksEnd = exports.fetchAllBooks = exports.fetchAllBooksEnd = undefined;
 
 var _fetch = __webpack_require__(/*! ./fetch */ "./src/Actions/fetch.js");
 
@@ -723,6 +724,7 @@ var Publish = exports.Publish = function Publish(info) {
 var Published = exports.Published = function Published(info) {
 	return {
 		type: _actionTypes.PUBLISHED_BOOK,
+		bookId: info.bookId,
 		creator: info.creator,
 		name: info.name,
 		src: info.src
@@ -820,6 +822,16 @@ var CloseAlert = exports.CloseAlert = function CloseAlert() {
 		type: _actionTypes.CLOSE_ALERT
 	};
 };
+var UpdateDataURL = exports.UpdateDataURL = function UpdateDataURL(info) {
+	return function (dispatch) {
+		(0, _fetch2.default)(dispatch, DataURL, 'update/dataurl', 'POST', info);
+	};
+};
+var DataURL = exports.DataURL = function DataURL() {
+	return {
+		type: _actionTypes.UPDATE_DATAURL
+	};
+};
 
 /***/ }),
 
@@ -888,6 +900,7 @@ var App = function (_Component) {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'container-fluid' },
+				_react2.default.createElement('div', { id: 'myModal' }),
 				_react2.default.createElement(_Header2.default, null),
 				_react2.default.createElement(
 					_reactRouterDom.Switch,
@@ -947,9 +960,8 @@ var BookItem = function (_Component) {
 
 		var _this = _possibleConstructorReturn(this, (BookItem.__proto__ || Object.getPrototypeOf(BookItem)).call(this));
 
-		_this.state = {
-			show: false
-		};
+		_this.handleRequest = _this.handleRequest.bind(_this);
+		_this.handleDelete = _this.handleDelete.bind(_this);
 		return _this;
 	}
 
@@ -958,22 +970,20 @@ var BookItem = function (_Component) {
 		value: function componentWillReceiveProps(nextProps) {
 			this.item = this.props.bookname ? _react2.default.createElement(
 				_reactBootstrap.Thumbnail,
-				{ src: nextProps.handleError.altSrc, alt: 'local', onError: this.handleError.bind(this) },
+				{ src: nextProps.handleError.altSrc, title: this.props.bookname, alt: 'local', onError: this.handleError.bind(this) },
 				_react2.default.createElement(
-					'h4',
-					null,
-					this.props.bookname
-				),
-				_react2.default.createElement(
-					_reactBootstrap.Button,
-					{ bsStyle: 'primary', onClick: this.handleRequest.bind(this) },
-					'\u60F3\u8981'
-				),
-				' ',
-				_react2.default.createElement(
-					_reactBootstrap.Button,
-					{ bsStyle: 'danger', onClick: this.handleDelete.bind(this) },
-					'\u5220\u9664'
+					'div',
+					{ className: 'bookTag' },
+					_react2.default.createElement(
+						'span',
+						{ onClick: this.handleRequest },
+						_react2.default.createElement(_reactBootstrap.Glyphicon, { glyph: 'ok', className: 'glyph glyph_left' })
+					),
+					_react2.default.createElement(
+						'span',
+						{ onClick: this.handleDelete },
+						_react2.default.createElement(_reactBootstrap.Glyphicon, { glyph: 'trash', className: 'glyph glyph_right' })
+					)
 				)
 			) : null;
 		}
@@ -981,39 +991,43 @@ var BookItem = function (_Component) {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			this.errFlag = false;
-		}
-	}, {
-		key: 'handleClose',
-		value: function handleClose() {
-			this.setState({ show: false });
-			if (this.props.response.deleted || this.props.response.wanted) {
-				this.props.actions.CloseAlert();
-				if (this.props.status == 'userBookList') {
-					this.props.actions.fetchUserBooks(this.props.username);
-				} else if (this.props.status == 'allBookList') {
-					this.props.actions.fetchAllBooks();
-				}
-			}
+			// this.tag= document.getElementsByClassName('bookTag')[this.props.order];
+			// this.tag.addEventListener('touchstart', function(){
+			// 	this.style.cssText='opacity: 0.5; background-color: #666';
+			// })
 		}
 	}, {
 		key: 'handleDelete',
 		value: function handleDelete() {
+			var modal = document.getElementById('myModal');
+			modal.style.cssText = "top: 80px; opacity: 1;";
 			if (this.props.auth.auth) {
 				this.props.actions.Delete({ id: this.props.bookId });
+				modal.innerHTML = "Delete Book Success";
+				setTimeout(function () {
+					location.reload();
+				}, 2000);
 			} else {
-				this.setState({ show: true });
-				setTimeout(this.handleClose.bind(this), 1000);
+				modal.innerHTML = "Faild! Please Login first";
 			}
+			setTimeout(function () {
+				modal.style.cssText = "";
+			}, 1500);
 		}
 	}, {
 		key: 'handleRequest',
 		value: function handleRequest() {
+			var modal = document.getElementById('myModal');
+			modal.style.cssText = "top: 80px; opacity: 1;";
 			if (this.props.username) {
 				this.props.actions.WantBook({ bookId: this.props.bookId, bookname: this.props.bookname, username: this.props.username });
+				modal.innerHTML = "Request Book Success";
 			} else {
-				this.setState({ show: true });
-				setTimeout(this.handleClose.bind(this), 1000);
+				modal.innerHTML = "Faild! Please Login first";
 			}
+			setTimeout(function () {
+				modal.style.cssText = "";
+			}, 1500);
 		}
 	}, {
 		key: 'handleError',
@@ -1029,57 +1043,26 @@ var BookItem = function (_Component) {
 					_reactBootstrap.Thumbnail,
 					{ src: this.props.pic, alt: this.props.bookname, onError: this.handleError.bind(this) },
 					_react2.default.createElement(
-						'h4',
-						null,
-						this.props.bookname
-					),
-					_react2.default.createElement(
-						_reactBootstrap.Button,
-						{ bsStyle: 'primary', onClick: this.handleRequest.bind(this) },
-						'\u60F3\u8981'
-					),
-					' ',
-					_react2.default.createElement(
-						_reactBootstrap.Button,
-						{ bsStyle: 'danger', onClick: this.handleDelete.bind(this) },
-						'\u5220\u9664'
+						'div',
+						{ className: 'bookTag' },
+						_react2.default.createElement(
+							'span',
+							{ onClick: this.handleRequest },
+							_react2.default.createElement(_reactBootstrap.Glyphicon, { glyph: 'ok', className: 'glyph glyph_left' })
+						),
+						_react2.default.createElement(
+							'span',
+							{ onClick: this.handleDelete },
+							_react2.default.createElement(_reactBootstrap.Glyphicon, { glyph: 'trash', className: 'glyph glyph_right' })
+						)
 					)
 				) : null;
 			}
-			var foot = null;
-			if (this.props.response.deleted || this.props.response.wanted) {
-				foot = _react2.default.createElement(
-					_reactBootstrap.Modal.Footer,
-					null,
-					_react2.default.createElement(
-						_reactBootstrap.Button,
-						{ onClick: this.handleClose.bind(this) },
-						'\u786E\u8BA4'
-					)
-				);
-			}
+
 			return _react2.default.createElement(
-				_react2.default.Fragment,
-				null,
-				_react2.default.createElement(
-					_reactBootstrap.Col,
-					{ md: 2 },
-					this.item
-				),
-				_react2.default.createElement(
-					_reactBootstrap.Modal,
-					{ show: this.state.show || this.props.response.deleted || this.props.response.wanted, onHide: this.handleClose.bind(this) },
-					_react2.default.createElement(
-						_reactBootstrap.Modal.Body,
-						null,
-						_react2.default.createElement(
-							'p',
-							null,
-							this.props.response.content ? this.props.response.content : 'Please Login!'
-						)
-					),
-					foot
-				)
+				_reactBootstrap.Col,
+				{ md: 2 },
+				this.item
 			);
 		}
 	}]);
@@ -1190,6 +1173,23 @@ var BookList = exports.BookList = function (_Component2) {
 
 			var list = this.list ? this.list : null;
 			var alertMessage = null;
+			var items = this.props.List[list] ? this.props.List[list].map(function (v, i) {
+				if (_this3.props.authRegister.auth) {
+					return _react2.default.createElement(_Errors2.default, { status: _this3.props.status, key: i, order: i, username: _this3.props.user.info.username, bookId: v.bookId, pic: v.bookPic, bookname: v.bookName });
+				} else {
+					return _react2.default.createElement(_Errors2.default, { key: i, order: i, bookId: v.bookId, pic: v.bookPic, bookname: v.bookName });
+				}
+			}) : null;
+			var split = [],
+			    len = items ? items.length : 0;
+			var splitItems = items ? items.reduce(function (prev, curr, i) {
+				split.push(curr);
+				if ((i + 1) % 6 == 0 || i + 1 == len) {
+					prev.push(split.slice(0));
+					split.length = 0;
+				}
+				return prev;
+			}, []) : null;
 			if (this.props.handleAlert.alert && this.props.handleAlert.content.alertType == 3) {
 				alertMessage = _react2.default.createElement(
 					_reactBootstrap.Alert,
@@ -1203,16 +1203,13 @@ var BookList = exports.BookList = function (_Component2) {
 				_react2.default.createElement(
 					_reactBootstrap.Grid,
 					null,
-					_react2.default.createElement(
-						_reactBootstrap.Row,
-						null,
-						this.props.List[list] ? this.props.List[list].map(function (v, i) {
-							if (_this3.props.authRegister.auth) {
-								return _react2.default.createElement(_Errors2.default, { status: _this3.props.status, key: i, username: _this3.props.user.info.username, bookId: v.bookId, pic: v.bookPic, bookname: v.bookName });
-							}
-							return _react2.default.createElement(_Errors2.default, { key: i, bookId: v.bookId, pic: v.bookPic, bookname: v.bookName });
-						}) : null
-					)
+					splitItems ? splitItems.map(function (v, i) {
+						return _react2.default.createElement(
+							_reactBootstrap.Row,
+							{ key: i },
+							v
+						);
+					}) : null
 				),
 				_react2.default.createElement(
 					'div',
@@ -1628,8 +1625,8 @@ var LoginRegister = exports.LoginRegister = function (_Component2) {
 					),
 					_react2.default.createElement(
 						_reactBootstrap.Col,
-						{ sm: 9 },
-						_react2.default.createElement(_reactBootstrap.FormControl, { name: 'email', onChange: this.onChange })
+						{ sm: 6 },
+						_react2.default.createElement(_reactBootstrap.FormControl, { name: 'email', type: 'email', onChange: this.onChange })
 					)
 				),
 				_react2.default.createElement(
@@ -1642,7 +1639,7 @@ var LoginRegister = exports.LoginRegister = function (_Component2) {
 					),
 					_react2.default.createElement(
 						_reactBootstrap.Col,
-						{ sm: 9 },
+						{ sm: 6 },
 						_react2.default.createElement(_reactBootstrap.FormControl, { name: 'password', type: 'password', onChange: this.onChange })
 					)
 				),
@@ -1651,7 +1648,7 @@ var LoginRegister = exports.LoginRegister = function (_Component2) {
 					null,
 					_react2.default.createElement(
 						_reactBootstrap.Col,
-						{ smOffset: 3, sm: 6 },
+						{ smOffset: 4, sm: 6 },
 						_react2.default.createElement(
 							_reactBootstrap.ButtonToolbar,
 							null,
@@ -1691,7 +1688,7 @@ var LoginRegister = exports.LoginRegister = function (_Component2) {
 					_react2.default.createElement(
 						_reactBootstrap.Col,
 						{ sm: 9 },
-						_react2.default.createElement(_reactBootstrap.FormControl, { name: 'email', onChange: this.onChange })
+						_react2.default.createElement(_reactBootstrap.FormControl, { name: 'email', type: 'email', onChange: this.onChange })
 					)
 				),
 				_react2.default.createElement(
@@ -1809,10 +1806,10 @@ var PublishBook = function (_Component) {
 	_createClass(PublishBook, [{
 		key: 'handleAdd',
 		value: function handleAdd(event) {
-			var api = 'https://api.douban.com/v2/book/isbn/' + this.refs.input.value;
+			var api = 'https://api.douban.com/v2/book/isbn/' + this.refs.input.value.trim();
 			var info = {
 				creator: this.props.user.username,
-				isbn: this.refs.input.value,
+				isbn: this.refs.input.value.trim(),
 				api: api
 			};
 			this.props.actions.Publish(info);
@@ -1826,6 +1823,29 @@ var PublishBook = function (_Component) {
 		key: 'dismissValidation',
 		value: function dismissValidation() {
 			this.props.actions.CloseAlert();
+		}
+	}, {
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate(prevProps, prevState) {
+			//DO NOT get actual DOM or give it a value. use ref get the component's attribute value
+			if (this.props.bookImg != null && this.props.bookImg !== prevProps.bookImg) {
+				var bookId = this.props.bookId;
+				var _this = this;
+				var canvas = document.createElement('canvas');
+				var ctx = canvas.getContext('2d');
+				var img = document.createElement('img'); //new Image not work!!!!!
+				img.crossOrigin = 'Anonymous';
+				var dataURL;
+				img.onload = function () {
+					canvas.width = img.width;
+					canvas.height = img.height;
+					ctx.drawImage(img, 0, 0);
+					dataURL = canvas.toDataURL("image/jpeg");
+					var info = { id: bookId, url: dataURL };
+					_this.props.actions.UpdateDataURL(info);
+				};
+				img.src = this.props.bookImg;
+			}
 		}
 	}, {
 		key: 'render',
@@ -1848,7 +1868,7 @@ var PublishBook = function (_Component) {
 			}
 			return _react2.default.createElement(
 				'div',
-				null,
+				{ id: 'pub' },
 				alertMessage,
 				_react2.default.createElement(
 					'h3',
@@ -1856,33 +1876,30 @@ var PublishBook = function (_Component) {
 					'\u53D1\u5E03\u4E00\u672C\u4E66 :)'
 				),
 				_react2.default.createElement(
-					_reactBootstrap.Form,
-					{ inline: true },
+					'small',
+					null,
+					'\u8F93\u5165\u56FE\u4E66\u7684',
 					_react2.default.createElement(
-						_reactBootstrap.FormGroup,
+						'b',
 						null,
-						_react2.default.createElement(
-							_reactBootstrap.ControlLabel,
-							null,
-							'ISBN: '
-						),
-						' ',
-						_react2.default.createElement('input', { className: 'form-control', type: 'text', ref: 'input' })
+						'ISBN'
 					),
-					' ',
-					_react2.default.createElement(
-						_reactBootstrap.Button,
-						{ bsStyle: 'primary', onClick: this.handleAdd.bind(this) },
-						'\u6DFB\u52A0'
-					),
-					' ',
-					_react2.default.createElement(
-						_reactBootstrap.Button,
-						{ onClick: this.handleReturn.bind(this) },
-						'\u67E5\u770B\u6211\u7684\u4E66\u7C4D'
-					)
+					'\u53F7'
 				),
-				_react2.default.createElement(_reactBootstrap.Image, { src: this.props.bookImg, thumbnail: true })
+				_react2.default.createElement('input', { id: 'isbn', className: 'form-control', type: 'text', ref: 'input' }),
+				_react2.default.createElement(
+					_reactBootstrap.Button,
+					{ bsStyle: 'primary', onClick: this.handleAdd.bind(this) },
+					'\u6DFB\u52A0'
+				),
+				' ',
+				_react2.default.createElement(
+					_reactBootstrap.Button,
+					{ onClick: this.handleReturn.bind(this) },
+					'\u67E5\u770B\u6211\u7684\u4E66\u7C4D'
+				),
+				_react2.default.createElement('br', null),
+				_react2.default.createElement(_reactBootstrap.Image, { src: this.props.bookImg, crossOrigin: 'anonymous', thumbnail: true })
 			);
 		}
 	}]);
@@ -2185,11 +2202,6 @@ var Request = exports.Request = function (_Component2) {
 	}
 
 	_createClass(Request, [{
-		key: 'dismissValidation',
-		value: function dismissValidation() {
-			this.props.actions.CloseAlert();
-		}
-	}, {
 		key: 'hanldeTrade',
 		value: function hanldeTrade(id, event) {
 			var user = this.props.user.info.username;
@@ -2216,26 +2228,23 @@ var Request = exports.Request = function (_Component2) {
 			this.props.actions.CloseAlert();
 		}
 	}, {
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate(prevProps, prevState) {
+			if (this.props.request.agreed) {
+				var modal = document.getElementById('myModal');
+				modal.style.cssText = "top: 80px; opacity: 1;";
+				modal.innerHTML = this.props.request.content.message;
+				setTimeout(function () {
+					modal.style.cssText = "";
+				}, 1500);
+				this.props.actions.CloseAlert();
+			}
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			var _this3 = this;
 
-			var alertMessage = null;
-			if (this.props.request.agreed) {
-				if (this.props.request.content.alertType == 7.0) {
-					alertMessage = _react2.default.createElement(
-						_reactBootstrap.Alert,
-						{ bsStyle: 'danger', onDismiss: this.dismissValidation.bind(this) },
-						this.props.request.content.message
-					);
-				} else if (this.props.request.content.alertType == 7.1) {
-					alertMessage = _react2.default.createElement(
-						_reactBootstrap.Alert,
-						{ bsStyle: 'success', onDismiss: this.dismissValidation.bind(this) },
-						this.props.request.content.message
-					);
-				}
-			}
 			var tradeMessage = null;
 			if (this.props.handleAlert.alert && this.props.handleAlert.content.alertType == 8) {
 				tradeMessage = _react2.default.createElement(
@@ -2262,11 +2271,6 @@ var Request = exports.Request = function (_Component2) {
 				'div',
 				{ className: 'req-list' },
 				tradeMessage,
-				_react2.default.createElement(
-					'div',
-					{ className: 'reqme-alert' },
-					alertMessage
-				),
 				_react2.default.createElement(
 					_reactBootstrap.ListGroup,
 					null,
@@ -2602,6 +2606,7 @@ function mapStateToProps(state) {
 	    handleErrors = state.handleErrors;
 
 	return {
+		bookId: bookPRDW.bookId,
 		bookImg: bookPRDW.bookImg,
 		user: setUser.info,
 		handleAlert: handleErrors
@@ -2790,7 +2795,7 @@ var bookPRDW = function bookPRDW() {
 	//PRDW: publish request delete want
 	switch (action.type) {
 		case 'PUBLISHED_BOOK':
-			return _extends({}, state, { bookImg: action.src });
+			return _extends({}, state, { bookId: action.bookId, bookImg: action.src });
 		case 'WANTED_BOOK':
 			return _extends({}, state, { wanted: true, content: action.content });
 		case 'REQUEST_BOOK':
@@ -2800,7 +2805,7 @@ var bookPRDW = function bookPRDW() {
 		case 'DELETE_BOOK':
 			return _extends({}, state, { deleted: true, content: action.content });
 		default:
-			return _extends({}, state, { bookImg: null, wanted: false, deleted: false, agreed: false });
+			return _extends({}, state, { bookId: null, bookImg: null, wanted: false, deleted: false, agreed: false });
 	}
 };
 var handleErrors = function handleErrors() {
@@ -2861,7 +2866,7 @@ var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
 var _reduxLogger = __webpack_require__(/*! redux-logger */ "./node_modules/redux-logger/dist/redux-logger.js");
 
-var _index = __webpack_require__(/*! ./Reducers/index.js */ "./src/Reducers/index.js");
+var _index = __webpack_require__(/*! ./Reducers/index */ "./src/Reducers/index.js");
 
 var _index2 = _interopRequireDefault(_index);
 

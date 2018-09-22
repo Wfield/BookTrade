@@ -38,7 +38,7 @@ router.post('/user/:id/publish', function(req, res){
 											if(err){
 												res.send({type: 2, content: {alertType: 5.0, message: 'publish book faild'}});
 											}else{
-												res.send({type: 1, content: {creator: info.creator, name: info.bookname, src: info.pic}})
+												res.send({type: 1, content: {bookId: book._id, creator: info.creator, name: info.bookname, src: info.pic}})
 											}
 										});
 									}
@@ -73,7 +73,7 @@ router.post('/user/:id/publish', function(req, res){
 											if(err){
 												res.send({type: 2, content: {alertType: 5.0, message: 'publish book faild'}});
 											}else{
-												res.send({type: 1, content: {creator: info.creator, name: info.bookname, src: info.pic}})
+												res.send({type: 1, content: {bookId: book._id, creator: info.creator, name: info.bookname, src: info.pic}})
 											}
 										});
 									}
@@ -134,4 +134,14 @@ router.delete('/deletebook', function(req, res){
 		}
 	})
 });
+router.post('/update/dataurl', function(req,res){
+	Models.Book.update({_id: req.body.id}, {pic: req.body.url}, function(err, raw){
+		if(err){
+			console.log('update dataURL err');
+		}else{
+			console.log(raw);
+		}
+	})
+});
+
 export default router

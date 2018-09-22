@@ -15,9 +15,6 @@ export class Request extends Component {
 		this.messageTrue='';
 		this.messageFalse='';
 	}
-	dismissValidation(){
-		this.props.actions.CloseAlert();
-	}
 	hanldeTrade(id, event) {
 		let user= this.props.user.info.username;
 		this.props.actions.AgreeTrade(user, id);
@@ -38,23 +35,16 @@ export class Request extends Component {
 	componentWillUnmount(){
 		this.props.actions.CloseAlert();
 	}
-	render() {
-		let alertMessage= null;
+	componentDidUpdate(prevProps, prevState){
 		if(this.props.request.agreed){
-			if(this.props.request.content.alertType==7.0){
-				alertMessage= (
-					<Alert bsStyle="danger" onDismiss={this.dismissValidation.bind(this)}>
-	         			{this.props.request.content.message}
-	        		</Alert>
-				);
-			}else if(this.props.request.content.alertType==7.1){
-				alertMessage= (
-					<Alert bsStyle="success" onDismiss={this.dismissValidation.bind(this)}>
-	         			{this.props.request.content.message}
-	        		</Alert>
-				);
-			}
+			var modal= document.getElementById('myModal');
+			modal.style.cssText= "top: 80px; opacity: 1;";
+			modal.innerHTML=this.props.request.content.message; 
+			setTimeout(()=>{modal.style.cssText=""}, 1500);
+			this.props.actions.CloseAlert();	
 		}
+	}
+	render() {
 		let tradeMessage= null;
 		if(this.props.handleAlert.alert&& this.props.handleAlert.content.alertType==8){
 			tradeMessage= (
@@ -72,9 +62,6 @@ export class Request extends Component {
 		return (
 			<div className='req-list'>
 				{tradeMessage}
-				<div className='reqme-alert'>
-					{alertMessage}
-				</div>
 				<ListGroup>
 					{list}
 				</ListGroup>

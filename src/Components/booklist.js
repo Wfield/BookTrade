@@ -32,6 +32,21 @@ export class BookList extends Component {
 	render() {
 		let list= this.list? this.list: null;
 		let alertMessage= null;
+		let items= this.props.List[list]? this.props.List[list].map((v, i) => {
+		if(this.props.authRegister.auth){
+			return <BookItem status={this.props.status} key={i} order= {i} username={this.props.user.info.username} bookId={v.bookId} pic={v.bookPic} bookname={v.bookName} />									
+		}else{
+			return <BookItem key={i} order={i} bookId={v.bookId} pic={v.bookPic} bookname={v.bookName} />					}
+		}): null;
+		let split=[], len= items? items.length: 0;
+		let splitItems= items? items.reduce((prev, curr, i) => {
+			split.push(curr);
+			if((i+1)%6==0||(i+1)==len){
+				prev.push(split.slice(0));
+				split.length=0;
+			}
+			return prev;
+		},[]): null;
 		if(this.props.handleAlert.alert&&this.props.handleAlert.content.alertType==3){
 			alertMessage= (
 				<Alert bsStyle="info" onDismiss={this.dismissValidation.bind(this)}>
@@ -42,14 +57,9 @@ export class BookList extends Component {
 		return (
 			<div className={list}>
 				<Grid>
-					<Row>
-						{this.props.List[list]? this.props.List[list].map((v, i) => {
-							if(this.props.authRegister.auth){
-								return <BookItem status={this.props.status} key={i} username={this.props.user.info.username} bookId={v.bookId} pic={v.bookPic} bookname={v.bookName} />
-							}
-							return <BookItem key={i} bookId={v.bookId} pic={v.bookPic} bookname={v.bookName} />
-						}): null}
-					</Row>
+					{splitItems? splitItems.map((v, i)=>{
+						return <Row key={i}>{v}</Row>
+					}): null}
 				</Grid>
 				<div className='nobook-alert'>
 					{alertMessage}

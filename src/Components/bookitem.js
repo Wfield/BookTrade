@@ -1,49 +1,50 @@
 import React, { Component } from 'react'
-import { Thumbnail, Button, Col, Modal } from 'react-bootstrap'
+import { Thumbnail, Button, Col, Modal, Glyphicon } from 'react-bootstrap'
 
 class BookItem extends Component {
 	constructor(){
 		super();
-		this.state={
-			show: false
-		}
+		
+		this.handleRequest=this.handleRequest.bind(this);
+		this.handleDelete= this.handleDelete.bind(this);
 	}
 	componentWillReceiveProps(nextProps){
-		this.item=this.props.bookname? <Thumbnail src={nextProps.handleError.altSrc} alt='local' onError={this.handleError.bind(this)}>
-				<h4>{this.props.bookname}</h4>
-				<Button bsStyle='primary' onClick={this.handleRequest.bind(this)}>想要</Button>{' '}
-				<Button bsStyle='danger' onClick={this.handleDelete.bind(this)}>删除</Button>
+		this.item=this.props.bookname? <Thumbnail src={nextProps.handleError.altSrc} title={this.props.bookname} alt='local' onError={this.handleError.bind(this)}>
+				<div className="bookTag">
+					<span onClick={this.handleRequest}><Glyphicon glyph='ok' className='glyph glyph_left' /></span>
+					<span onClick={this.handleDelete}><Glyphicon glyph='trash' className='glyph glyph_right' /></span>
+				</div>
 			</Thumbnail>: null;
 	}
 	componentDidMount(){
 		this.errFlag= false;
-	}
-	handleClose(){
-		this.setState({ show: false });
-		if(this.props.response.deleted|| this.props.response.wanted){
-			this.props.actions.CloseAlert();
-			if(this.props.status== 'userBookList'){
-				this.props.actions.fetchUserBooks(this.props.username);
-			}else if(this.props.status== 'allBookList'){
-				this.props.actions.fetchAllBooks();
-			}
-		}
+		// this.tag= document.getElementsByClassName('bookTag')[this.props.order];
+		// this.tag.addEventListener('touchstart', function(){
+		// 	this.style.cssText='opacity: 0.5; background-color: #666';
+		// })
 	}
 	handleDelete(){
+		var modal= document.getElementById('myModal');
+		modal.style.cssText= "top: 80px; opacity: 1;";
 		if(this.props.auth.auth){
 			this.props.actions.Delete({id: this.props.bookId});
+			modal.innerHTML="Delete Book Success";
+			setTimeout(()=>{location.reload()}, 2000);	
 		}else{
-			this.setState({ show: true });
-			setTimeout(this.handleClose.bind(this), 1000);
+			modal.innerHTML="Faild! Please Login first";
 		}
+		setTimeout(()=>{modal.style.cssText=""}, 1500);	
 	}
 	handleRequest(){
+		var modal= document.getElementById('myModal');
+		modal.style.cssText= "top: 80px; opacity: 1;";
 		if(this.props.username){
 			this.props.actions.WantBook({bookId: this.props.bookId, bookname: this.props.bookname, username: this.props.username});
+			modal.innerHTML="Request Book Success";		
 		}else{
-			this.setState({ show: true });
-			setTimeout(this.handleClose.bind(this), 1000);
-		}		
+			modal.innerHTML="Faild! Please Login first";
+		}
+		setTimeout(()=>{modal.style.cssText=""}, 1500);		
 	}
 	handleError(){
 		this.props.actions.ImgError();
@@ -52,31 +53,17 @@ class BookItem extends Component {
 	render() {
 		if(!this.errFlag){
 			this.item= this.props.bookname? <Thumbnail src={this.props.pic} alt={this.props.bookname} onError={this.handleError.bind(this)}>
-				<h4>{this.props.bookname}</h4>
-				<Button bsStyle='primary' onClick={this.handleRequest.bind(this)}>想要</Button>{' '}
-				<Button bsStyle='danger' onClick={this.handleDelete.bind(this)}>删除</Button>
+				<div className="bookTag">
+					<span onClick={this.handleRequest}><Glyphicon glyph='ok' className='glyph glyph_left' /></span>
+					<span onClick={this.handleDelete}><Glyphicon glyph='trash' className='glyph glyph_right' /></span>
+				</div>
 			</Thumbnail>: null;
 		}
-		let foot= null;
-		if(this.props.response.deleted|| this.props.response.wanted){
-			foot= (
-				<Modal.Footer>
-					<Button onClick={this.handleClose.bind(this)}>确认</Button>
-				</Modal.Footer>
-			)
-		}
+		
 		return (
-			<React.Fragment>
-				<Col md={2}>
-					{this.item}
-				</Col>
-				<Modal show={this.state.show|| this.props.response.deleted|| this.props.response.wanted} onHide={this.handleClose.bind(this)}>
-					<Modal.Body>
-						<p>{this.props.response.content? this.props.response.content: 'Please Login!'}</p>
-					</Modal.Body>
-					{foot}
-				</Modal>
-			</React.Fragment>
+			<Col md={2}>
+				{this.item}
+			</Col>
 		)
 	}
 }

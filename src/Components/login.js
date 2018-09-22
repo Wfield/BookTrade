@@ -72,18 +72,18 @@ export class LoginRegister extends Component {
 			<Form horizontal onSubmit={this.hanldeSubmit.bind(this)}>
 				<FormGroup>
 					<Col componentClass={ControlLabel} sm={3}>Email</Col>
-					<Col sm={9}>
-						<FormControl name='email' onChange={this.onChange} />
+					<Col sm={6}>
+						<FormControl name='email' type='email' onChange={this.onChange} />
 					</Col>
 				</FormGroup>
 				<FormGroup>
 					<Col componentClass={ControlLabel} sm={3}>密码</Col>
-					<Col sm={9}>
+					<Col sm={6}>
 						<FormControl name='password' type='password' onChange={this.onChange} />
 					</Col>
 				</FormGroup>
 				<FormGroup>
-					<Col smOffset={3} sm={6}>
+					<Col smOffset={4} sm={6}>
 						<ButtonToolbar>
 							<Button bsStyle='primary' type='submit'>登录</Button>
 							<Button onClick={this.hanldeSwitch}>注册</Button>
@@ -99,7 +99,7 @@ export class LoginRegister extends Component {
 				<FormGroup>
 					<Col componentClass={ControlLabel} sm={3}>Email</Col>
 					<Col sm={9}>
-						<FormControl name='email' onChange={this.onChange} />
+						<FormControl name='email' type='email' onChange={this.onChange} />
 					</Col>
 				</FormGroup>
 				<FormGroup>

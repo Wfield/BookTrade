@@ -12,6 +12,7 @@ class App extends Component {
 	render() {
 		return (
 			<div className="container-fluid">
+				<div id="myModal"></div>
 				<Header />
 				<Switch>
 					<Route exact path='/' component={ HomePage } />

@@ -594,7 +594,7 @@ var _index = __webpack_require__(/*! ./index */ "./src/Actions/index.js");
 function _requset(dispatch, endAction, params, method, info) {
 	//https://frozen-cliffs-58040.herokuapp.com/
 	//http://localhost:9000
-	var url = 'https://frozen-cliffs-58040.herokuapp.com/api/' + params;
+	var url = 'http://localhost:9000/api/' + params;
 	var options = method ? {
 		method: method,
 		mode: 'cors',
@@ -2809,7 +2809,7 @@ var handleErrors = function handleErrors() {
 
 	switch (action.type) {
 		case 'IMG_ERROR':
-			return _extends({}, state, { altSrc: '/imgs/ImgNotFound.jpg' });
+			return _extends({}, state, { altSrc: '/imgs/Image.jpg' });
 		case 'ALERT_MESSAGE':
 			return _extends({}, state, { alert: true, content: action.content });
 		case 'PUBLISHED_BOOK':

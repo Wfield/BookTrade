@@ -15,7 +15,6 @@ app.set('view engine', 'html');
 app.engine('html', ejs.renderFile);
 app.use(bodyParser.json());
 
-
 mongoose.connect(dbURL);
 const db= mongoose.connection;
 db.on('error', (err)=> console.error("mongodb connect faild!"+ err));

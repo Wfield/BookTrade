@@ -7,6 +7,7 @@ import Publish from '../Components/publish'
 function mapStateToProps(state){
 	const { bookPRDW, setUser, handleErrors }= state;
 	return {
+		bookId: bookPRDW.bookId,
 		bookImg: bookPRDW.bookImg,
 		user: setUser.info,
 		handleAlert: handleErrors

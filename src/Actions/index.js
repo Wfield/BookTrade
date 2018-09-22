@@ -16,7 +16,8 @@ import {
 	PROFILE_CHANGED,
 	PASSWORD_CHANGED,
 	ALERT_MESSAGE,
-	CLOSE_ALERT
+	CLOSE_ALERT,
+	UPDATE_DATAURL
 } from './actionTypes'
 
 export const fetchAllBooksEnd = (data= [])=> ({
@@ -70,6 +71,7 @@ export const Publish= (info) => {
 }
 export const Published= (info) => ({
 	type: PUBLISHED_BOOK,
+	bookId: info.bookId,
 	creator: info.creator,
 	name: info.name,
 	src: info.src
@@ -146,4 +148,12 @@ export const Alert= (content) => ({
 })
 export const CloseAlert= () => ({
 	type: CLOSE_ALERT
+})
+export const UpdateDataURL= (info)=>{
+	return (dispatch) =>{
+		_requset(dispatch, DataURL, 'update/dataurl', 'POST', info);
+	}
+}
+export const DataURL= () => ({
+	type: UPDATE_DATAURL
 })

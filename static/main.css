@@ -1,5 +1,6 @@
 .loginTemplate{
 	margin: 20px auto;
+	padding-top: 100px;
 }
 .reqme-alert{
 	width: 300px;
@@ -38,4 +39,66 @@ a{
 	color: black;
 	bottom: 10px;
 	left: 40%;
+}
+.bookTag{
+	height: 30px;
+	width: 100%;
+	opacity: 0;
+	margin: 0;
+	transition: opacity 1s;
+}
+.bookTag:hover{
+	opacity: 0.5;
+	background-color: #666;
+}
+@media screen and (max-width: 990px){
+	.bookTag{
+		height: 30px;
+		width: 100%;
+		margin: 0;
+		opacity: 0.5;
+		background-color: #666;
+	}
+}
+.thumbnail .caption{
+	padding: 0;
+}
+.thumbnail{
+	padding: 0;
+}
+.glyph{
+	margin: 5px 10px;
+	color: white;
+	cursor: pointer;
+}
+.glyph_left{
+	float: left;
+}
+.glyph_right{
+	float: right;
+}
+
+#myModal{
+	position: fixed;
+	border: 1px solid silver;
+	border-radius: 15px;
+	background-color: green;
+	color: white;
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: bold;
+	line-height: 40px;
+	width: 200px;
+	height: 40px;
+	top: -50px;
+	left: 50%;
+	opacity: 0;
+	margin-left: -100px;
+	z-index: 1;
+	transition: all 0.8s;
+}
+#isbn{
+	max-width: 20%;
+	min-width: 150px;
+	margin: 10px 0;
 }

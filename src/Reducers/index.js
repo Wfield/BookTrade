@@ -50,7 +50,7 @@ const authRegister= (state={}, action) =>{
 const bookPRDW= (state={}, action) => {	//PRDW: publish request delete want
 	switch(action.type){
 		case 'PUBLISHED_BOOK':
-			return {...state, bookImg: action.src}
+			return {...state, bookId: action.bookId, bookImg: action.src}
 		case 'WANTED_BOOK':
 			return {...state, wanted: true, content: action.content}
 		case 'REQUEST_BOOK':
@@ -60,7 +60,7 @@ const bookPRDW= (state={}, action) => {	//PRDW: publish request delete want
 		case 'DELETE_BOOK':
 			return {...state, deleted: true, content: action.content}
 		default:
-			return {...state, bookImg: null, wanted:false, deleted: false, agreed: false}
+			return {...state, bookId: null, bookImg: null, wanted:false, deleted: false, agreed: false}
 	}
 }
 const handleErrors= (state= {}, action) => {

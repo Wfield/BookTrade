@@ -13,7 +13,8 @@ app.use(express.static(path.join(__dirname, '../static')));
 app.set('views', path.join(__dirname, '../static'));
 app.set('view engine', 'html');
 app.engine('html', ejs.renderFile);
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));//solve request 413: playload too large
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 mongoose.connect(dbURL);
 const db= mongoose.connection;

@@ -137,9 +137,9 @@ router.delete('/deletebook', function(req, res){
 router.post('/update/dataurl', function(req,res){
 	Models.Book.update({_id: req.body.id}, {pic: req.body.url}, function(err, raw){
 		if(err){
-			console.log('update dataURL err');
+			res.send({type: 0, content: err});
 		}else{
-			console.log(raw);
+			res.send({type: 1, content: 'update dataURL success'});
 		}
 	})
 });

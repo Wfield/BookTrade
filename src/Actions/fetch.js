@@ -5,7 +5,7 @@ export default function _requset(dispatch, endAction, params, method, info) {
 	//http://localhost:5000 heroku local
 	//http://localhost:9000
 	//http://localhost:8000  devServer
-	let url='https://floating-gorge-98177.herokuapp.com/api/'+params;
+	let url='http://localhost:8000/api/'+params;
 	let options=  method? {
 		method: method,
 		mode: 'cors',

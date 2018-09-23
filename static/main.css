@@ -1,3 +1,14 @@
+@font-face {
+    font-family: Montserrat;
+    src: url('montserrat-light-webfont.woff2') format('woff2'),
+         url('montserrat-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+	font-display：fallback;
+}
+*{
+	font-family: Montserrat, sans-serif;
+}
 .loginTemplate{
 	margin: 20px auto;
 	padding-top: 100px;

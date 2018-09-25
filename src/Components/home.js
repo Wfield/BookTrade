@@ -34,6 +34,9 @@ class HomePage extends Component{
 				<div id='loginPanel'>
 					<h2>豆瓣图书模拟交易</h2>
 					<WithLogin history= {this.props.history} home='true' />
+					<div id='coder'>
+						<small>code by <code>wfield</code> 2018/8/16</small>
+					</div>
 				</div>
 				<div id='slider' onClick={this.handleSideDown.bind(this)}>view all books <br /><span id="slidedown">︾</span></div>
 			</div>

@@ -1505,7 +1505,22 @@ var HomePage = function (_Component) {
 						null,
 						'\u8C46\u74E3\u56FE\u4E66\u6A21\u62DF\u4EA4\u6613'
 					),
-					_react2.default.createElement(_LoginRegister.WithLogin, { history: this.props.history, home: 'true' })
+					_react2.default.createElement(_LoginRegister.WithLogin, { history: this.props.history, home: 'true' }),
+					_react2.default.createElement(
+						'div',
+						{ id: 'coder' },
+						_react2.default.createElement(
+							'small',
+							null,
+							'code by ',
+							_react2.default.createElement(
+								'code',
+								null,
+								'wfield'
+							),
+							' 2018/8/16'
+						)
+					)
 				),
 				_react2.default.createElement(
 					'div',

@@ -57,6 +57,34 @@ body{
 #slider:hover{
 	color: steelblue;
 }
+@media screen and (max-width: 512px){
+	.home{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+	#loginPanel{
+		width: 100%;
+		height: 100%;
+		padding: 2em;
+		background-color: rgb(51,51,51);
+		text-align: center;
+	}
+	#slider{
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 10%;
+		font-size: 1.5em;
+		font-weight: bold;
+		text-align: center;
+		z-index: 1;
+		color: white;
+	}
+}
 /*login page css*/
 .loginTemplate{
 	margin: 20px auto;
@@ -74,9 +102,6 @@ body{
 	opacity: 0;
 	transition: opacity 2s;
 }
-/*#booklist:hover{
-	opacity: 1;
-}*/
 /*book item css*/
 .bookTag{
 	height: 30px;

@@ -8,49 +8,76 @@
 }
 *{
 	font-family: Montserrat, sans-serif;
+	margin: 0;
+	padding: 0;
 }
+body{
+	background-color: rgb(51,51,51);
+	color: white;
+}
+/*navbar css*/
+.navbar{
+	opacity: 0;
+	top: -60px;
+	transition: all 1s ease-in;
+}
+/*home page css*/
+.home{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-image: url(imgs/book.png);
+	background-repeat: no-repeat;
+	background-size: 65% 100%;
+	background-color: rgb(255,255,255);
+}
+#loginPanel{
+	float: right;
+	width: 35%;
+	height: 100%;
+	padding: 2em;
+	background-color: rgb(51,51,51);
+	text-align: center;
+}
+#slider{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 10%;
+	font-size: 1.5em;
+	font-weight: bold;
+	text-align: center;
+	z-index: 1;
+	cursor: pointer;
+	color: black;
+}
+#slider:hover{
+	color: steelblue;
+}
+/*login page css*/
 .loginTemplate{
 	margin: 20px auto;
 	padding-top: 100px;
 }
+/*trade page css*/
 .reqme-alert{
 	width: 300px;
 	position: fixed;
 	top: 20%;
 	z-index: 1;
 }
-.nobook-alert{
-	width: 100%;
-	float: left;
+/*book list css */
+#booklist{
+	opacity: 0;
+	transition: opacity 2s;
 }
-.home{
-	width: 80%;
-	height: 400px;
-	position: absolute;
-	text-align: center;
-	color: steelblue;
-}
-.home-img{
-	position: absolute;
-	left: 40%;
-}
-.home-footer{
-	width: 100%;
-	background-color: moccasin;
-	color: seagreen;
-	position: absolute;
-	bottom: 60px;
-	left: 30px;
-}
-a{
-	cursor: pointer;
-}
-.footer{
-	position: absolute;
-	color: black;
-	bottom: 10px;
-	left: 40%;
-}
+/*#booklist:hover{
+	opacity: 1;
+}*/
+/*book item css*/
 .bookTag{
 	height: 30px;
 	width: 100%;
@@ -88,7 +115,17 @@ a{
 .glyph_right{
 	float: right;
 }
-
+/*publish page css*/
+#isbn{
+	max-width: 20%;
+	min-width: 150px;
+	margin: 10px 0;
+}
+/* alert message component css*/
+.nobook-alert{
+	width: 100%;
+	float: left;
+}
 #myModal{
 	position: fixed;
 	border: 1px solid silver;
@@ -107,9 +144,4 @@ a{
 	margin-left: -100px;
 	z-index: 1;
 	transition: all 0.8s;
-}
-#isbn{
-	max-width: 20%;
-	min-width: 150px;
-	margin: 10px 0;
 }

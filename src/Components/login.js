@@ -37,12 +37,22 @@ export class LoginRegister extends Component {
 	}
 	hanldeSubmit(event) {
 		event.preventDefault();
-		this.info.password= md5(this.info.password);
-		if(this.props.status =='login'){
-			this.props.actions.Login(this.info);
-		}
-		else if(this.props.status== 'signup'){
-			this.props.actions.Register(this.info);
+		if(this.info.email==""){
+			this.props.actions.Alert({alertType: 1, message: 'email can not be null'});
+		}else if(this.info.password==""){
+			this.props.actions.Alert({alertType: 1, message: 'password can not be null'});
+		}else{
+			this.info.password= md5(this.info.password);
+			if(this.props.status =='login'){
+				this.props.actions.Login(this.info);
+			}
+			else if(this.props.status== 'signup'){
+				if(this.info.username==""){
+					this.props.actions.Alert({alertType: 1, message: 'username can not be null'});
+				}else{
+					this.props.actions.Register(this.info);
+				}
+			}
 		}
 	}
 	componentWillReceiveProps(nextProps) {
@@ -98,24 +108,24 @@ export class LoginRegister extends Component {
 			<Form horizontal onSubmit={this.hanldeSubmit.bind(this)}>
 				<FormGroup>
 					<Col componentClass={ControlLabel} sm={3}>Email</Col>
-					<Col sm={9}>
+					<Col sm={6}>
 						<FormControl name='email' type='email' onChange={this.onChange} />
 					</Col>
 				</FormGroup>
 				<FormGroup>
 					<Col componentClass={ControlLabel} sm={3}>用户名</Col>
-					<Col sm={9}>
+					<Col sm={6}>
 						<FormControl name='username' onChange={this.onChange} />
 					</Col>
 				</FormGroup>
 				<FormGroup>
 					<Col componentClass={ControlLabel} sm={3}>密码</Col>
-					<Col sm={9}>
+					<Col sm={6}>
 						<FormControl name='password' type='password' onChange={this.onChange} />
 					</Col>
 				</FormGroup>
 				<FormGroup>
-					<Col smOffset={3} sm={6}>
+					<Col smOffset={4} sm={6}>
 						<ButtonToolbar>
 							<Button bsStyle='primary' type='submit'>注册</Button>
 							<Button onClick={this.hanldeSwitch}>登录</Button>

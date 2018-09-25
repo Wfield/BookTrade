@@ -992,10 +992,6 @@ var BookItem = function (_Component) {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			this.errFlag = false;
-			// this.tag= document.getElementsByClassName('bookTag')[this.props.order];
-			// this.tag.addEventListener('touchstart', function(){
-			// 	this.style.cssText='opacity: 0.5; background-color: #666';
-			// })
 		}
 	}, {
 		key: 'handleDelete',
@@ -1009,6 +1005,7 @@ var BookItem = function (_Component) {
 					location.reload();
 				}, 2000);
 			} else {
+				modal.style.backgroundColor = 'red';
 				modal.innerHTML = "Faild! Please Login first";
 			}
 			setTimeout(function () {
@@ -1024,6 +1021,7 @@ var BookItem = function (_Component) {
 				this.props.actions.WantBook({ bookId: this.props.bookId, bookname: this.props.bookname, username: this.props.username });
 				modal.innerHTML = "Request Book Success";
 			} else {
+				modal.style.backgroundColor = 'red';
 				modal.innerHTML = "Faild! Please Login first";
 			}
 			setTimeout(function () {
@@ -1161,6 +1159,18 @@ var BookList = exports.BookList = function (_Component2) {
 				this.list = 'allBooks';
 				this.props.actions.fetchAllBooks();
 			}
+			var navbar = document.getElementsByClassName('navbar')[0];
+			navbar.style.cssText = "top: 0; opacity: 1";
+			this.cnt = 0;
+		}
+	}, {
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate() {
+			this.cnt++;
+			if (this.cnt == 1) {
+				var list = document.getElementById('booklist');
+				list.style.opacity = '1';
+			}
 		}
 	}, {
 		key: 'componentWillUnmount',
@@ -1200,7 +1210,7 @@ var BookList = exports.BookList = function (_Component2) {
 			}
 			return _react2.default.createElement(
 				'div',
-				{ className: list },
+				{ id: 'booklist', className: list },
 				_react2.default.createElement(
 					_reactBootstrap.Grid,
 					null,
@@ -1288,7 +1298,7 @@ var Header = function (_Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				_reactBootstrap.Navbar,
-				{ fluid: true },
+				{ fluid: true, bsStyle: 'inverse' },
 				_react2.default.createElement(
 					_reactBootstrap.Navbar.Header,
 					null,
@@ -1423,57 +1433,97 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
+
+var _LoginRegister = __webpack_require__(/*! ../Containers/LoginRegister */ "./src/Containers/LoginRegister.js");
 
 var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/es/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var HomePage = function HomePage() {
-	return _react2.default.createElement(
-		'div',
-		{ className: 'home' },
-		_react2.default.createElement(
-			'h2',
-			null,
-			'\u8C46\u74E3\u56FE\u4E66\u6A21\u62DF\u4EA4\u6613'
-		),
-		_react2.default.createElement(
-			'div',
-			{ className: 'home-img' },
-			_react2.default.createElement(_reactBootstrap.Image, { src: '/imgs/home.png', responsive: true })
-		),
-		_react2.default.createElement(
-			'div',
-			{ className: 'home-footer' },
-			_react2.default.createElement(
-				'strong',
-				null,
-				'\u544A\u77E5\uFF1A'
-			),
-			'\u6B64\u7F51\u7AD9\u4F7F\u7528',
-			_react2.default.createElement(
-				'a',
-				{ href: 'https://book.douban.com/', target: '_blank' },
-				'\u8C46\u74E3\u56FE\u4E66'
-			),
-			'API\u83B7\u53D6\u6307\u5B9A\u56FE\u4E66ISBN\u53F7\u7684\u4E66\u7C4D\u4FE1\u606F'
-		),
-		_react2.default.createElement(
-			'div',
-			{ className: 'footer' },
-			'create by ',
-			_react2.default.createElement(
-				'code',
-				null,
-				'Wfield'
-			),
-			' 2018/8/2'
-		)
-	);
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var HomePage = function (_Component) {
+	_inherits(HomePage, _Component);
+
+	function HomePage() {
+		_classCallCheck(this, HomePage);
+
+		return _possibleConstructorReturn(this, (HomePage.__proto__ || Object.getPrototypeOf(HomePage)).apply(this, arguments));
+	}
+
+	_createClass(HomePage, [{
+		key: 'handleSideDown',
+		value: function handleSideDown() {
+			this.props.history.push('/allbooks');
+		}
+	}, {
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var down = document.getElementById('slidedown');
+			var flag = true;
+			var _this = this;
+			this.timer = setInterval(function () {
+				if (flag) {
+					flag = false;
+					down.style.color = "white";
+				} else {
+					flag = true;
+					down.style.color = "black";
+				}
+			}, 1000, flag);
+			document.addEventListener('keydown', function (evt) {
+				if (evt.key == 'ArrowDown') {
+					_this.handleSideDown();
+				}
+			});
+		}
+	}, {
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			clearInterval(this.timer);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				{ className: 'home' },
+				_react2.default.createElement(
+					'div',
+					{ id: 'loginPanel' },
+					_react2.default.createElement(
+						'h2',
+						null,
+						'\u8C46\u74E3\u56FE\u4E66\u6A21\u62DF\u4EA4\u6613'
+					),
+					_react2.default.createElement(_LoginRegister.WithLogin, { history: this.props.history, home: 'true' })
+				),
+				_react2.default.createElement(
+					'div',
+					{ id: 'slider', onClick: this.handleSideDown.bind(this) },
+					'view all books ',
+					_react2.default.createElement('br', null),
+					_react2.default.createElement(
+						'span',
+						{ id: 'slidedown' },
+						'\uFE3E'
+					)
+				)
+			);
+		}
+	}]);
+
+	return HomePage;
+}(_react.Component);
 
 exports.default = HomePage;
 
@@ -1579,11 +1629,21 @@ var LoginRegister = exports.LoginRegister = function (_Component2) {
 		key: 'hanldeSubmit',
 		value: function hanldeSubmit(event) {
 			event.preventDefault();
-			this.info.password = (0, _md2.default)(this.info.password);
-			if (this.props.status == 'login') {
-				this.props.actions.Login(this.info);
-			} else if (this.props.status == 'signup') {
-				this.props.actions.Register(this.info);
+			if (this.info.email == "") {
+				this.props.actions.Alert({ alertType: 1, message: 'email can not be null' });
+			} else if (this.info.password == "") {
+				this.props.actions.Alert({ alertType: 1, message: 'password can not be null' });
+			} else {
+				this.info.password = (0, _md2.default)(this.info.password);
+				if (this.props.status == 'login') {
+					this.props.actions.Login(this.info);
+				} else if (this.props.status == 'signup') {
+					if (this.info.username == "") {
+						this.props.actions.Alert({ alertType: 1, message: 'username can not be null' });
+					} else {
+						this.props.actions.Register(this.info);
+					}
+				}
 			}
 		}
 	}, {
@@ -1688,7 +1748,7 @@ var LoginRegister = exports.LoginRegister = function (_Component2) {
 					),
 					_react2.default.createElement(
 						_reactBootstrap.Col,
-						{ sm: 9 },
+						{ sm: 6 },
 						_react2.default.createElement(_reactBootstrap.FormControl, { name: 'email', type: 'email', onChange: this.onChange })
 					)
 				),
@@ -1702,7 +1762,7 @@ var LoginRegister = exports.LoginRegister = function (_Component2) {
 					),
 					_react2.default.createElement(
 						_reactBootstrap.Col,
-						{ sm: 9 },
+						{ sm: 6 },
 						_react2.default.createElement(_reactBootstrap.FormControl, { name: 'username', onChange: this.onChange })
 					)
 				),
@@ -1716,7 +1776,7 @@ var LoginRegister = exports.LoginRegister = function (_Component2) {
 					),
 					_react2.default.createElement(
 						_reactBootstrap.Col,
-						{ sm: 9 },
+						{ sm: 6 },
 						_react2.default.createElement(_reactBootstrap.FormControl, { name: 'password', type: 'password', onChange: this.onChange })
 					)
 				),
@@ -1725,7 +1785,7 @@ var LoginRegister = exports.LoginRegister = function (_Component2) {
 					null,
 					_react2.default.createElement(
 						_reactBootstrap.Col,
-						{ smOffset: 3, sm: 6 },
+						{ smOffset: 4, sm: 6 },
 						_react2.default.createElement(
 							_reactBootstrap.ButtonToolbar,
 							null,

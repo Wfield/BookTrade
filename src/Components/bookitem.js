@@ -18,10 +18,7 @@ class BookItem extends Component {
 	}
 	componentDidMount(){
 		this.errFlag= false;
-		// this.tag= document.getElementsByClassName('bookTag')[this.props.order];
-		// this.tag.addEventListener('touchstart', function(){
-		// 	this.style.cssText='opacity: 0.5; background-color: #666';
-		// })
+		
 	}
 	handleDelete(){
 		var modal= document.getElementById('myModal');
@@ -31,6 +28,7 @@ class BookItem extends Component {
 			modal.innerHTML="Delete Book Success";
 			setTimeout(()=>{location.reload()}, 2000);	
 		}else{
+			modal.style.backgroundColor='red';
 			modal.innerHTML="Faild! Please Login first";
 		}
 		setTimeout(()=>{modal.style.cssText=""}, 1500);	
@@ -42,6 +40,7 @@ class BookItem extends Component {
 			this.props.actions.WantBook({bookId: this.props.bookId, bookname: this.props.bookname, username: this.props.username});
 			modal.innerHTML="Request Book Success";		
 		}else{
+			modal.style.backgroundColor='red';
 			modal.innerHTML="Faild! Please Login first";
 		}
 		setTimeout(()=>{modal.style.cssText=""}, 1500);		

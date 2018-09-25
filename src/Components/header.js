@@ -21,7 +21,7 @@ class Header extends Component {
 
 	render(){
 		return(
-			<Navbar fluid>
+			<Navbar fluid bsStyle="inverse">
 				<Navbar.Header>
 					<Navbar.Brand>图书模拟交易</Navbar.Brand>
 					<Navbar.Toggle />

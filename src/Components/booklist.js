@@ -24,6 +24,16 @@ export class BookList extends Component {
 			this.list= 'allBooks';
 			this.props.actions.fetchAllBooks();
 		}
+		var navbar= document.getElementsByClassName('navbar')[0];
+		navbar.style.cssText="top: 0; opacity: 1";
+		this.cnt=0;
+	}
+	componentDidUpdate(){
+		this.cnt++;
+		if(this.cnt==1){
+			var list =document.getElementById('booklist');
+			list.style.opacity= '1';
+		}
 	}
 	componentWillUnmount(){
 		this.props.actions.CloseAlert();
@@ -55,7 +65,7 @@ export class BookList extends Component {
 			);
 		}
 		return (
-			<div className={list}>
+			<div id='booklist' className={list}>
 				<Grid>
 					{splitItems? splitItems.map((v, i)=>{
 						return <Row key={i}>{v}</Row>

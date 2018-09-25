@@ -1006,7 +1006,7 @@ var BookItem = function (_Component) {
 				}, 2000);
 			} else {
 				modal.style.backgroundColor = 'red';
-				modal.innerHTML = "Faild! Please Login first";
+				modal.innerHTML = "Faild! Please Login";
 			}
 			setTimeout(function () {
 				modal.style.cssText = "";
@@ -1022,7 +1022,7 @@ var BookItem = function (_Component) {
 				modal.innerHTML = "Request Book Success";
 			} else {
 				modal.style.backgroundColor = 'red';
-				modal.innerHTML = "Faild! Please Login first";
+				modal.innerHTML = "Faild! Please Login";
 			}
 			setTimeout(function () {
 				modal.style.cssText = "";

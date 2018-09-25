@@ -29,7 +29,7 @@ class BookItem extends Component {
 			setTimeout(()=>{location.reload()}, 2000);	
 		}else{
 			modal.style.backgroundColor='red';
-			modal.innerHTML="Faild! Please Login first";
+			modal.innerHTML="Faild! Please Login";
 		}
 		setTimeout(()=>{modal.style.cssText=""}, 1500);	
 	}
@@ -41,7 +41,7 @@ class BookItem extends Component {
 			modal.innerHTML="Request Book Success";		
 		}else{
 			modal.style.backgroundColor='red';
-			modal.innerHTML="Faild! Please Login first";
+			modal.innerHTML="Faild! Please Login";
 		}
 		setTimeout(()=>{modal.style.cssText=""}, 1500);		
 	}
